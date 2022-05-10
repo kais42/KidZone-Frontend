@@ -1,0 +1,121 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
+<div class="row">
+    <div class="row">
+        <div class="col-md-12">
+            <ng-template #mymodal1 let-modal1>
+               <div class="modal-header">
+                    <h4 class="modal-title" id="modal-basic-title" >Add new Classe</h4>
+                    <button type="button" class="close" aria-label="Close" (click)="modal1.dismiss('Cross click')">
+                        <span aria-hidden="true" (click)="cancel()">×</span>
+                    </button>
+                </div> 
+                
+                    <form>
+                        <div class="modal-body">
+                            <div class="row" class="col-md-5">
+                                <label>Nom</label>
+                                <input type="text" [(ngModel)]="classe.nom" placeholder="Nom Classe" [ngModelOptions]="{standalone : true}" />
+                            </div>
+                            <div class="row" class="col-md-5">
+                                <label>Nbr de Place</label>
+                                <input type="number" [(ngModel)]="classe.nbr_Place" placeholder="Nbr de Place" [ngModelOptions]="{standalone : true}" />
+                            </div>
+                            <div class="row" class="col-md-5">
+                                <label>Niveaux</label>
+                                <input type="number" [(ngModel)]="classe.niveaux" placeholder=" Niveaux"  [ngModelOptions]="{standalone : true}" />
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" (click)="addClasse(classe)" (click)="modal1.close('Save click')">Add</button> 
+                            <button type="button" class="btn btn-info" (click)="modal.close('Save click')" (click)="cancel()">Cancel</button>
+                            </div>
+               </form>
+            
+           
+
+            </ng-template>
+            
+        </div>
+        </div>
+        </div>
+      
+<!-- affichage tableau classe edit + delete -->
+       <div class="row mt-5"> 
+            <div id="form_login">
+              <div class="card shadow">
+                <div class="card-header border-0">
+                  <div class="row align-items-center">
+                    <div class="col">
+                       <pre><h3 class="mb-0">All Classes </h3></pre> 
+                       <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="filterTerm">
+                    </div>
+                    <div class="col text-right">
+                        <button class="btn btn-sm btn-primary" (click)="open(mymodal1)">Add new Classe</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <!-- Projects table -->
+                  <table class="table align-items-center table-flush">
+                    <thead class="thead-light">
+                      <tr>
+                        <th scope="col">Nom</th>
+                            <th scope="col">Nbr de Place</th>
+                            <th scope="col">Niveaux</th>
+                            <th scope="col">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor='let c of listClasses |  filter: filterTerm | paginate: {itemsPerPage:5,currentPage:p};'>
+                            <td>{{c.nom}}</td>
+                            <td>{{c.nbr_Place}}</td>
+                            <td>{{c.niveaux}}</td>
+                            <td><button type="button" class="btn btn-outline-primary"
+                                    (click)="open(mymodal)">edit</button>
+                                <ng-template #mymodal let-modal>
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="modal-basic-title">Edit</h4>
+                                        <button type="button" class="close" aria-label="Close"
+                                            (click)="modal.dismiss('Cross click')">
+                                            <span aria-hidden="true" (click)="cancel()">×</span>
+
+                                        </button>
+
+                                    </div>
+                                    <div>
+                        <form>
+                            <div class="modal-body">
+                                <div class="row" class="col-md-5">
+                                    <label>Nom</label>
+                                    <input type="text" [(ngModel)]="c.nom" [ngModelOptions]="{standalone : true}" />
+                                </div>
+                                <div class="row" class="col-md-5">
+                                    <label>Nbr de Place</label>
+                                    <input type="number" [(ngModel)]="c.nbr_Place" [ngModelOptions]="{standalone : true}" />
+                                </div>
+                                <div class="row" class="col-md-5">
+                                    <label>Niveaux</label>
+                                    <input type="number" [(ngModel)]="c.niveaux" [ngModelOptions]="{standalone : true}" />
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+
+                                <button class="btn btn-success"(click)="editClasse(c)" (click)="modal.close('Save click')">Validate</button>
+                                <button type="button" class="btn btn-info" (click)="modal1.close('Save click')" >Cancel</button>
+                            </div>
+                        </form>
+                </div>
+                </ng-template>
+                <button type="button" class="btn btn-outline-danger"
+                    (click)="deleteClasse(c.idClasse)">delete</button>
+            </td>
+        </tr>
+    </tbody>
+                  </table>
+                </div>
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+              </div>
+            </div>
+          </div>
